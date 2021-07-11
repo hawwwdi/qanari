@@ -121,7 +121,7 @@ func (db *DB) GetTimeLine() ([]*model.Ava, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	timeLine := make([]*model.Ava, 1)
+	timeLine := make([]*model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
 		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
@@ -139,7 +139,7 @@ func (db *DB) getComments(a *model.Ava) ([]*model.Ava, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	timeLine := make([]*model.Ava, 1)
+	timeLine := make([]*model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
 		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
@@ -148,4 +148,22 @@ func (db *DB) getComments(a *model.Ava) ([]*model.Ava, error) {
 		timeLine = append(timeLine, &curr)
 	}
 	return timeLine, nil
+}
+
+func (db *DB) getLikers(a *model.Ava) ([]*model.User, error) {
+	query := `call getLikers(?)`
+	rows, err := db.SqlDB.Query(query, a.ID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	likers := make([]*model.User, 0)
+	for rows.Next() {
+		var curr model.User
+		if err := rows.Scan(&curr.ID, &curr.Username); err != nil {
+			return nil, err
+		}
+		likers = append(likers, &curr)
+	}
+	return likers, nil
 }
