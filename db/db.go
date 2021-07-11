@@ -6,6 +6,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/hawwwdi/qanari/model"
 )
 
 type DB struct {
@@ -25,15 +26,15 @@ func NewDB(user, password, dbName string) *DB {
 	return &DB{db}
 }
 
-func (db *DB) Signup(user, password, firstName, lastName, bio string, birthday time.Time) error {
+func (db *DB) Signup(s *model.SignupCredential) error {
 	query := `call signUp_Procudure(?, ?, ?, ?, ?, ?)`
-	_, err := db.SqlDB.Exec(query, user, password, firstName, lastName, birthday, bio)
+	_, err := db.SqlDB.Exec(query, s.Username, s.Password, s.FirstName, s.LastName, s.Bio, s.Birthday)
 	return err
 }
 
-func (db *DB) Login(user, password string) error {
+func (db *DB) Login(l *model.LoginCredential) error {
 	query := `call logIn_Procedure(?, ?)`
-	res, _ := db.SqlDB.Exec(query, user, password)
+	res, _ := db.SqlDB.Exec(query, l.Username, l.Password)
 	rows, err := res.RowsAffected()
 	if rows == 0 {
 		return fmt.Errorf("invalid username or password")
