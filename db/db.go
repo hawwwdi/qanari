@@ -93,3 +93,23 @@ func (db *DB) UnBlock(u *model.User) error {
 	}
 	return err
 }
+
+func (db *DB) Like(a *model.Ava) error {
+	query := `call likeAva_procedure(?)`
+	res, err := db.SqlDB.Exec(query, a.ID)
+	rows, err := res.RowsAffected()
+	if rows == 0 {
+		return fmt.Errorf("Ava not found")
+	}
+	return err
+}
+
+func (db *DB) SendMessage(m *model.Message) error {
+	query := `call sendMessage(?, ?, ?)`
+	res, err := db.SqlDB.Exec(query, m.Receiver, m.Content, m.PostID)
+	rows, _ := res.RowsAffected()
+	if rows == 0 {
+		return fmt.Errorf("message not send")
+	}
+	return err
+}
