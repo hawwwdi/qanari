@@ -3,15 +3,15 @@ package model
 import "time"
 
 type SignupCredential struct {
-	Username  string
-	Password  string
-	FirstName string
-	LastName  string
-	Bio       string
-	Birthday  time.Time
+	Username  string    `json:"Username" binding:"required"`
+	Password  string    `json:"Password" binding:"required"`
+	FirstName string    `json:"FirstName" binding:"required"`
+	LastName  string    `json:"LastName" binding:"required"`
+	Bio       string    `json:"Bio" binding:"-"`
+	Birthday  time.Time `json:"Birthday" binding:"required"`
 }
 
 type LoginCredential struct {
-	Username string
-	Password string
+	Username string `json:"Username" binding:"required"`
+	Password string `json:"Password" binding:"required"`
 }
