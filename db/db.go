@@ -167,3 +167,16 @@ func (db *DB) getLikers(a *model.Ava) ([]*model.User, error) {
 	}
 	return likers, nil
 }
+
+func (db *DB) getLikesCount(a *model.Ava) (int, error) {
+	query := `call getLikesCount(?)`
+	rows, err := db.SqlDB.Query(query, a.ID)
+	if err != nil {
+		return -1, err
+	}
+	var count int
+	if err := rows.Scan(&count); err != nil {
+		return -1, err
+	}
+	return count, nil
+}
