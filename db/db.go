@@ -53,3 +53,25 @@ func (db *DB) PostComment(a *model.Ava) error {
 	_, err := db.SqlDB.Exec(query, a.Content, a.ReplyTo)
 	return err
 }
+
+func (db *DB) Follow(u *model.User) error {
+	query := `call follow(?)`
+	res, err := db.SqlDB.Exec(query, u.Username)
+	rows, err := res.RowsAffected()
+	if rows == 0 {
+		return fmt.Errorf("user %s already followed", u.Username)
+	}
+	return err
+
+}
+
+func (db *DB) UnFollow(u *model.User) error {
+	query := `call unfollow(?)`
+	res, err := db.SqlDB.Exec(query, u.Username)
+	rows, err := res.RowsAffected()
+	if rows == 0 {
+		return fmt.Errorf("user %s not found in following list", u.Username)
+	}
+	return err
+
+}

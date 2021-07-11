@@ -15,3 +15,8 @@ type LoginCredential struct {
 	Username string `json:"Username" binding:"required"`
 	Password string `json:"Password" binding:"required"`
 }
+
+type User struct {
+	ID       int64  `json:"Id" binding:"-"`
+	Username string `json:"Username" binding:"required"`
+}
