@@ -131,3 +131,21 @@ func (db *DB) GetTimeLine() ([]*model.Ava, error) {
 	}
 	return timeLine, nil
 }
+
+func (db *DB) getComments(a *model.Ava) ([]*model.Ava, error) {
+	query := `checkComments_procedure(?)`
+	rows, err := db.SqlDB.Query(query, a.ID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	timeLine := make([]*model.Ava, 1)
+	for rows.Next() {
+		var curr model.Ava
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+			return nil, err
+		}
+		timeLine = append(timeLine, &curr)
+	}
+	return timeLine, nil
+}
