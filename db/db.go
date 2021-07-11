@@ -113,3 +113,21 @@ func (db *DB) SendMessage(m *model.Message) error {
 	}
 	return err
 }
+
+func (db *DB) GetTimeLine() ([]*model.Ava, error) {
+	query := `call getTimeLine_procedure()`
+	rows, err := db.SqlDB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	timeLine := make([]*model.Ava, 1)
+	for rows.Next() {
+		var curr model.Ava
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+			return nil, err
+		}
+		timeLine = append(timeLine, &curr)
+	}
+	return timeLine, nil
+}
