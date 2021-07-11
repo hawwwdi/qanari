@@ -41,3 +41,15 @@ func (db *DB) Login(l *model.LoginCredential) error {
 	}
 	return err
 }
+
+func (db *DB) PostAva(a *model.Ava) error {
+	query := `call postAVA_procedure(?)`
+	_, err := db.SqlDB.Exec(query, a.Content)
+	return err
+}
+
+func (db *DB) PostComment(a *model.Ava) error {
+	query := `call postComment_procedure(?, ?)`
+	_, err := db.SqlDB.Exec(query, a.Content, a.ReplyTo)
+	return err
+}
