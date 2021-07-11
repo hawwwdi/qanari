@@ -132,8 +132,8 @@ func (db *DB) GetTimeLine() ([]*model.Ava, error) {
 	return timeLine, nil
 }
 
-func (db *DB) getComments(a *model.Ava) ([]*model.Ava, error) {
-	query := `checkComments_procedure(?)`
+func (db *DB) GetComments(a *model.Ava) ([]*model.Ava, error) {
+	query := `call checkComments_procedure(?)`
 	rows, err := db.SqlDB.Query(query, a.ID)
 	if err != nil {
 		return nil, err
@@ -150,7 +150,45 @@ func (db *DB) getComments(a *model.Ava) ([]*model.Ava, error) {
 	return timeLine, nil
 }
 
-func (db *DB) getLikers(a *model.Ava) ([]*model.User, error) {
+func (db *DB) GetPersonalAvas() ([]*model.Ava, error) {
+	query := `call getPersonalAvas()`
+	rows, err := db.SqlDB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	timeLine := make([]*model.Ava, 0)
+	for rows.Next() {
+		var curr model.Ava
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+			return nil, err
+		}
+		timeLine = append(timeLine, &curr)
+	}
+	return timeLine, nil
+
+}
+
+func (db *DB) GetAvasByLikes() ([]*model.Ava, error) {
+	query := `call getAVAsByLikes()`
+	rows, err := db.SqlDB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	timeLine := make([]*model.Ava, 0)
+	for rows.Next() {
+		var curr model.Ava
+		if err := rows.Scan(&curr.ID, &curr.Content, &curr.Likes); err != nil {
+			return nil, err
+		}
+		timeLine = append(timeLine, &curr)
+	}
+	return timeLine, nil
+
+}
+
+func (db *DB) GetLikers(a *model.Ava) ([]*model.User, error) {
 	query := `call getLikers(?)`
 	rows, err := db.SqlDB.Query(query, a.ID)
 	if err != nil {
@@ -168,7 +206,7 @@ func (db *DB) getLikers(a *model.Ava) ([]*model.User, error) {
 	return likers, nil
 }
 
-func (db *DB) getLikesCount(a *model.Ava) (int, error) {
+func (db *DB) GetLikesCount(a *model.Ava) (int, error) {
 	query := `call getLikesCount(?)`
 	rows, err := db.SqlDB.Query(query, a.ID)
 	if err != nil {
