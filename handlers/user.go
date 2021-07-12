@@ -94,3 +94,47 @@ func getUnfollowHandler(db *db.DB) gin.HandlerFunc {
 		return
 	}
 }
+
+func getBlockHandler(db *db.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var user model.User
+		if err := c.ShouldBindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		if err := db.Block(user); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"message": fmt.Sprintf("user %s blocked successfully", user.Username),
+		})
+		return
+	}
+}
+
+func getUnBlockHandler(db *db.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var user model.User
+		if err := c.ShouldBindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		if err := db.UnBlock(user); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"message": fmt.Sprintf("user %s unblocked successfully", user.Username),
+		})
+		return
+	}
+}
