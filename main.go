@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	db := db.NewDB("tss", "tss", "qanari")
+	db := db.NewDB("root", "12345678", "qanari")
 	app := handlers.NewApp(db)
 	app.Start()
 }

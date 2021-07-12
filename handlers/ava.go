@@ -106,7 +106,7 @@ func getAvasCommentHandler(db *db.DB) gin.HandlerFunc {
 	}
 }
 
-func getPesonalAvasHandler(db *db.DB) gin.HandlerFunc {
+func getPersonalAvasHandler(db *db.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		avas, err := db.GetPersonalAvas()
 		if err != nil {

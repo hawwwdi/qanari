@@ -117,7 +117,7 @@ func getBlockHandler(db *db.DB) gin.HandlerFunc {
 	}
 }
 
-func getUnBlockHandler(db *db.DB) gin.HandlerFunc {
+func getUnblockHandler(db *db.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var user model.User
 		if err := c.ShouldBindJSON(&user); err != nil {
