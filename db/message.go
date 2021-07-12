@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/hawwwdi/qanari/model"
@@ -8,7 +9,12 @@ import (
 
 func (db *DB) SendMessage(m model.Message) error {
 	query := `call sendMessage(?, ?, ?)`
-	res, err := db.SqlDB.Exec(query, m.Receiver, m.Content, m.PostID)
+	var err error
+	var res sql.Result
+	res, err = db.SqlDB.Exec(query, m.Receiver, m.Content, m.PostID)
+	if err != nil {
+		return err
+	}
 	rows, _ := res.RowsAffected()
 	if rows == 0 {
 		return fmt.Errorf("message not send")
