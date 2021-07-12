@@ -6,13 +6,13 @@ import (
 	"github.com/hawwwdi/qanari/model"
 )
 
-func (db *DB) Signup(s *model.SignupCredential) error {
+func (db *DB) Signup(s model.SignupCredential) error {
 	query := `call signUp_Procudure(?, ?, ?, ?, ?, ?)`
 	_, err := db.SqlDB.Exec(query, s.Username, s.Password, s.FirstName, s.LastName, s.Bio, s.Birthday)
 	return err
 }
 
-func (db *DB) Login(l *model.LoginCredential) error {
+func (db *DB) Login(l model.LoginCredential) error {
 	query := `call logIn_Procedure(?, ?)`
 	res, _ := db.SqlDB.Exec(query, l.Username, l.Password)
 	rows, err := res.RowsAffected()
@@ -22,7 +22,7 @@ func (db *DB) Login(l *model.LoginCredential) error {
 	return err
 }
 
-func (db *DB) Follow(u *model.User) error {
+func (db *DB) Follow(u model.User) error {
 	query := `call follow(?)`
 	res, err := db.SqlDB.Exec(query, u.Username)
 	rows, err := res.RowsAffected()
@@ -32,7 +32,7 @@ func (db *DB) Follow(u *model.User) error {
 	return err
 }
 
-func (db *DB) UnFollow(u *model.User) error {
+func (db *DB) UnFollow(u model.User) error {
 	query := `call unfollow(?)`
 	res, err := db.SqlDB.Exec(query, u.Username)
 	rows, err := res.RowsAffected()
@@ -42,7 +42,7 @@ func (db *DB) UnFollow(u *model.User) error {
 	return err
 }
 
-func (db *DB) Block(u *model.User) error {
+func (db *DB) Block(u model.User) error {
 	query := `call block_procedure(?)`
 	res, err := db.SqlDB.Exec(query, u.Username)
 	rows, err := res.RowsAffected()
@@ -52,7 +52,7 @@ func (db *DB) Block(u *model.User) error {
 	return err
 }
 
-func (db *DB) UnBlock(u *model.User) error {
+func (db *DB) UnBlock(u model.User) error {
 	query := `call unblock_procedure(?)`
 	res, err := db.SqlDB.Exec(query, u.Username)
 	rows, err := res.RowsAffected()

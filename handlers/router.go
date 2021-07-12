@@ -25,6 +25,6 @@ func NewApp(db *db.DB) *App {
 	}
 }
 
-func (a *App) Start() {
-	a.route.Run()
+func (a *App) Start(addr ...string) {
+	a.route.Run(addr...)
 }

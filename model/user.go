@@ -2,20 +2,20 @@ package model
 
 type SignupCredential struct {
 	ID        int    `json:"id" binding:"-"`
-	Username  string `json:"Username" binding:"required"`
-	Password  string `json:"Password" binding:"required"`
-	FirstName string `json:"FirstName" binding:"required"`
-	LastName  string `json:"LastName" binding:"required"`
-	Bio       string `json:"Bio" binding:"-"`
-	Birthday  string `json:"Birthday" binding:"required"`
+	Username  string `json:"username" binding:"required"`
+	Password  string `json:"password" binding:"required"`
+	FirstName string `json:"firstName" binding:"required"`
+	LastName  string `json:"lastName" binding:"required"`
+	Bio       string `json:"bio" binding:"-"`
+	Birthday  string `json:"birthday" binding:"required"`
 }
 
 type LoginCredential struct {
-	Username string `json:"Username" binding:"required"`
-	Password string `json:"Password" binding:"required"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 type User struct {
-	ID       int64  `json:"Id" binding:"-"`
-	Username string `json:"Username" binding:"required"`
+	ID       int64  `json:"id" binding:"-"`
+	Username string `json:"username" binding:"required"`
 }
