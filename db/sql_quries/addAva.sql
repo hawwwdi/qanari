@@ -20,15 +20,19 @@ CREATE TRIGGER after_sendAVA
 DELIMITER ;
 
 CREATE trigger extract_hashtag
-    after insert on ava for each row
-    begin
-        set @counter = 1;
-        loop_label: loop
+    after insert
+    on ava
+    for each row
+begin
+    set @counter = 1;
+    loop_label:
+    loop
         if length(new.Content) < @counter then
             leave loop_label;
-        end if ;
+        end if;
         if substr(new.Content, @counter, 6) like '#_____' then
             call addTagToAPost(NEW.ID, substr(new.Content, @counter, 6));
-        end if ;
-    end loop ;
-    end ;
+        end if;
+        set @counter = @counter + 1;
+    end loop;
+end;
