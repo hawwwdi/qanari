@@ -33,10 +33,10 @@ func (m *Message) UnmarshalJSON(b []byte) error {
 	res := make(map[string]interface{})
 	_ = json.Unmarshal(b, &res)
 	if _, valid := res["id"]; valid {
-		m.ID = res["id"].(int)
+		m.ID = int(res["id"].(float64))
 	}
 	if _, valid := res["sender"]; valid {
-		m.Sender = res["sender"].(int)
+		m.Sender = int(res["sender"].(float64))
 	}
 	if _, valid := res["receiver"]; valid {
 		m.Receiver = res["receiver"].(string)

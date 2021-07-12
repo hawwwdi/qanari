@@ -31,10 +31,10 @@ func (a *Ava) UnmarshalJSON(b []byte) error {
 	res := make(map[string]interface{})
 	_ = json.Unmarshal(b, &res)
 	if _, valid := res["id"]; valid {
-		a.ID = res["id"].(int)
+		a.ID = int(res["id"].(float64))
 	}
 	if _, valid := res["publisher"]; valid {
-		a.Publisher = res["publisher"].(int)
+		a.Publisher = int(res["publisher"].(float64))
 	}
 	if _, valid := res["content"]; valid {
 		a.Content = res["content"].(string)
@@ -43,7 +43,7 @@ func (a *Ava) UnmarshalJSON(b []byte) error {
 		a.PublishTime = res["publishTime"].(string)
 	}
 	if _, valid := res["likes"]; valid {
-		a.Likes = res["likes"].(int)
+		a.Likes = int(res["likes"].(float64))
 	}
 	if _, valid := res["replyTo"]; valid {
 		a.ReplyTo.Int32 = int32(res["postID"].(float64))
