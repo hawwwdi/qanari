@@ -2,13 +2,13 @@ package db
 
 import "github.com/hawwwdi/qanari/model"
 
-func (db *DB) PostAva(a *model.Ava) error {
+func (db *DB) PostAva(a model.Ava) error {
 	query := `call postAVA_procedure(?)`
 	_, err := db.SqlDB.Exec(query, a.Content)
 	return err
 }
 
-func (db *DB) PostComment(a *model.Ava) error {
+func (db *DB) PostComment(a model.Ava) error {
 	query := `call postComment_procedure(?, ?)`
 	_, err := db.SqlDB.Exec(query, a.Content, a.ReplyTo)
 	return err
@@ -32,7 +32,7 @@ func (db *DB) GetTimeLine() ([]*model.Ava, error) {
 	return timeLine, nil
 }
 
-func (db *DB) GetComments(a *model.Ava) ([]*model.Ava, error) {
+func (db *DB) GetComments(a model.Ava) ([]*model.Ava, error) {
 	query := `call checkComments_procedure(?)`
 	rows, err := db.SqlDB.Query(query, a.ID)
 	if err != nil {
@@ -68,7 +68,7 @@ func (db *DB) GetPersonalAvas() ([]*model.Ava, error) {
 	return timeLine, nil
 }
 
-func (db *DB) GetUserAvas(u *model.User) ([]*model.Ava, error) {
+func (db *DB) GetUserAvas(u model.User) ([]*model.Ava, error) {
 	query := `call getUserAvas_procedure(?)`
 	rows, err := db.SqlDB.Query(query, u.Username)
 	if err != nil {
