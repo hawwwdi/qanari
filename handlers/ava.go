@@ -40,7 +40,7 @@ func getPostCommentHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		if err := db.PostAva(comment); err != nil {
+		if err := db.PostComment(comment); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
 			})
@@ -161,7 +161,13 @@ func getUserAvasHandler(db *db.DB) gin.HandlerFunc {
 
 func getAvasByTagHandler(db *db.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tag := c.Request.FormValue("tag")
+		var tag model.Tag
+		if err := c.ShouldBindJSON(&tag); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
 		avas, err := db.GetAvasByTags(tag)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{

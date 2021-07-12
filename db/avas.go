@@ -24,7 +24,7 @@ func (db *DB) GetTimeLine() ([]model.Ava, error) {
 	timeLine := make([]model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
-		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.PublishTime, &curr.ReplyTo); err != nil {
 			return nil, err
 		}
 		timeLine = append(timeLine, curr)
@@ -42,7 +42,7 @@ func (db *DB) GetComments(a model.Ava) ([]model.Ava, error) {
 	timeLine := make([]model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
-		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.PublishTime, &curr.ReplyTo); err != nil {
 			return nil, err
 		}
 		timeLine = append(timeLine, curr)
@@ -60,7 +60,7 @@ func (db *DB) GetPersonalAvas() ([]model.Ava, error) {
 	timeLine := make([]model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
-		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.PublishTime, &curr.ReplyTo); err != nil {
 			return nil, err
 		}
 		timeLine = append(timeLine, curr)
@@ -78,7 +78,7 @@ func (db *DB) GetUserAvas(u model.User) ([]model.Ava, error) {
 	timeLine := make([]model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
-		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.PublishTime, &curr.ReplyTo); err != nil {
 			return nil, err
 		}
 		timeLine = append(timeLine, curr)
@@ -86,9 +86,9 @@ func (db *DB) GetUserAvas(u model.User) ([]model.Ava, error) {
 	return timeLine, nil
 }
 
-func (db *DB) GetAvasByTags(tag string) ([]model.Ava, error) {
+func (db *DB) GetAvasByTags(tag model.Tag) ([]model.Ava, error) {
 	query := `call getPostByTag_procedure(?)`
-	rows, err := db.SqlDB.Query(query, tag)
+	rows, err := db.SqlDB.Query(query, tag.Tag)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (db *DB) GetAvasByTags(tag string) ([]model.Ava, error) {
 	timeLine := make([]model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
-		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.ReplyTo, &curr.PublishTime); err != nil {
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.PublishTime, &curr.ReplyTo); err != nil {
 			return nil, err
 		}
 		timeLine = append(timeLine, curr)
