@@ -158,3 +158,50 @@ func getUserAvasHandler(db *db.DB) gin.HandlerFunc {
 		return
 	}
 }
+
+func getAvasByTagHandler(db *db.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tag := c.Request.FormValue("tag")
+		avas, err := db.GetAvasByTags(tag)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		bytes, err := json.Marshal(avas)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"avas": string(bytes),
+		})
+		return
+	}
+}
+
+func getAvasByLikesHandler(db *db.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		avas, err := db.GetAvasByLikes()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		bytes, err := json.Marshal(avas)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"avas": string(bytes),
+		})
+		return
+	}
+}
