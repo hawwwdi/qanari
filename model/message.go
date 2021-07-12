@@ -50,7 +50,7 @@ func (m *Message) UnmarshalJSON(b []byte) error {
 	}
 	if _, valid := res["postID"]; valid {
 		m.PostID.Int32 = int32(res["postID"].(float64))
-		m.Content.Valid = true
+		m.PostID.Valid = true
 	}
 	return nil
 }
