@@ -41,8 +41,10 @@ func (db *DB) GetLikesCount(a model.Ava) (int, error) {
 		return -1, err
 	}
 	var count int
-	if err := rows.Scan(&count); err != nil {
-		return -1, err
+	for rows.Next() {
+		if err := rows.Scan(&count); err != nil {
+			return -1, err
+		}
 	}
 	return count, nil
 }
