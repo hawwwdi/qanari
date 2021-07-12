@@ -105,3 +105,56 @@ func getAvasCommentHandler(db *db.DB) gin.HandlerFunc {
 		return
 	}
 }
+
+func getPesonalAvasHandler(db *db.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		avas, err := db.GetPersonalAvas()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		bytes, err := json.Marshal(avas)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"avas": string(bytes),
+		})
+		return
+	}
+}
+
+func getUserAvasHandler(db *db.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var user model.User
+		if err := c.ShouldBindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		avas, err := db.GetUserAvas(user)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		bytes, err := json.Marshal(avas)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"avas": string(bytes),
+		})
+		return
+	}
+}
