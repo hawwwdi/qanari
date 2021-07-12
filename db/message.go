@@ -11,7 +11,7 @@ func (db *DB) SendMessage(m model.Message) error {
 	query := `call sendMessage(?, ?, ?)`
 	var err error
 	var res sql.Result
-	res, err = db.SqlDB.Exec(query, m.Receiver, m.Content, m.PostID)
+	res, err = db.db.Exec(query, m.Receiver, m.Content, m.PostID)
 	if err != nil {
 		return err
 	}
@@ -24,7 +24,7 @@ func (db *DB) SendMessage(m model.Message) error {
 
 func (db *DB) GetMessagesFromAUser(u model.User) ([]model.Message, error) {
 	query := `call getMessagesFromAUser(?)`
-	rows, err := db.SqlDB.Query(query, u.Username)
+	rows, err := db.db.Query(query, u.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (db *DB) GetMessagesFromAUser(u model.User) ([]model.Message, error) {
 
 func (db *DB) GetMessageSenders() ([]model.User, error) {
 	query := `call getSenders()`
-	rows, err := db.SqlDB.Query(query)
+	rows, err := db.db.Query(query)
 	if err != nil {
 		return nil, err
 	}

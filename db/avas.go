@@ -4,19 +4,19 @@ import "github.com/hawwwdi/qanari/model"
 
 func (db *DB) PostAva(a model.Ava) error {
 	query := `call postAVA_procedure(?)`
-	_, err := db.SqlDB.Exec(query, a.Content)
+	_, err := db.db.Exec(query, a.Content)
 	return err
 }
 
 func (db *DB) PostComment(a model.Ava) error {
 	query := `call postComment_procedure(?, ?)`
-	_, err := db.SqlDB.Exec(query, a.Content, a.ReplyTo)
+	_, err := db.db.Exec(query, a.Content, a.ReplyTo)
 	return err
 }
 
 func (db *DB) GetTimeLine() ([]model.Ava, error) {
 	query := `call getTimeLine_procedure()`
-	rows, err := db.SqlDB.Query(query)
+	rows, err := db.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (db *DB) GetTimeLine() ([]model.Ava, error) {
 
 func (db *DB) GetComments(a model.Ava) ([]model.Ava, error) {
 	query := `call checkComments_procedure(?)`
-	rows, err := db.SqlDB.Query(query, a.ID)
+	rows, err := db.db.Query(query, a.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (db *DB) GetComments(a model.Ava) ([]model.Ava, error) {
 
 func (db *DB) GetPersonalAvas() ([]model.Ava, error) {
 	query := `call getPersonalAvas()`
-	rows, err := db.SqlDB.Query(query)
+	rows, err := db.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (db *DB) GetPersonalAvas() ([]model.Ava, error) {
 
 func (db *DB) GetUserAvas(u model.User) ([]model.Ava, error) {
 	query := `call getUserAvas_procedure(?)`
-	rows, err := db.SqlDB.Query(query, u.Username)
+	rows, err := db.db.Query(query, u.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (db *DB) GetUserAvas(u model.User) ([]model.Ava, error) {
 
 func (db *DB) GetAvasByTags(tag model.Tag) ([]model.Ava, error) {
 	query := `call getPostByTag_procedure(?)`
-	rows, err := db.SqlDB.Query(query, tag.Tag)
+	rows, err := db.db.Query(query, tag.Tag)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func (db *DB) GetAvasByTags(tag model.Tag) ([]model.Ava, error) {
 
 func (db *DB) GetAvasByLikes() ([]model.Ava, error) {
 	query := `call getAVAsByLikes()`
-	rows, err := db.SqlDB.Query(query)
+	rows, err := db.db.Query(query)
 	if err != nil {
 		return nil, err
 	}

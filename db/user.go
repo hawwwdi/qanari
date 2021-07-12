@@ -8,13 +8,13 @@ import (
 
 func (db *DB) Signup(s model.SignupCredential) error {
 	query := `call signUp_Procedure(?, ?, ?, ?, ?, ?)`
-	_, err := db.SqlDB.Exec(query, s.Username, s.Password, s.FirstName, s.LastName, s.Birthday, s.Bio)
+	_, err := db.db.Exec(query, s.Username, s.Password, s.FirstName, s.LastName, s.Birthday, s.Bio)
 	return err
 }
 
 func (db *DB) Login(l model.LoginCredential) error {
 	query := `call logIn_Procedure(?, ?)`
-	res, _ := db.SqlDB.Exec(query, l.Username, l.Password)
+	res, _ := db.db.Exec(query, l.Username, l.Password)
 	rows, err := res.RowsAffected()
 	if rows == 0 {
 		return fmt.Errorf("invalid username or password")
@@ -24,7 +24,7 @@ func (db *DB) Login(l model.LoginCredential) error {
 
 func (db *DB) Follow(u model.User) error {
 	query := `call follow_procedure(?)`
-	res, err := db.SqlDB.Exec(query, u.Username)
+	res, err := db.db.Exec(query, u.Username)
 	if err != nil {
 		return err
 	}
@@ -37,7 +37,7 @@ func (db *DB) Follow(u model.User) error {
 
 func (db *DB) UnFollow(u model.User) error {
 	query := `call unfollow_procedure(?)`
-	res, err := db.SqlDB.Exec(query, u.Username)
+	res, err := db.db.Exec(query, u.Username)
 	if err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func (db *DB) UnFollow(u model.User) error {
 
 func (db *DB) Block(u model.User) error {
 	query := `call block_procedure(?)`
-	res, err := db.SqlDB.Exec(query, u.Username)
+	res, err := db.db.Exec(query, u.Username)
 	if err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func (db *DB) Block(u model.User) error {
 
 func (db *DB) UnBlock(u model.User) error {
 	query := `call unblock_procedure(?)`
-	res, err := db.SqlDB.Exec(query, u.Username)
+	res, err := db.db.Exec(query, u.Username)
 	if err != nil {
 		return err
 	}

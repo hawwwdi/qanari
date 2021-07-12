@@ -8,7 +8,7 @@ import (
 )
 
 type DB struct {
-	SqlDB *sql.DB
+	db *sql.DB
 }
 
 func NewDB(user, password, dbName string) *DB {
@@ -22,4 +22,8 @@ func NewDB(user, password, dbName string) *DB {
 	}
 	db.SetConnMaxLifetime(time.Minute * 30)
 	return &DB{db}
+}
+
+func (db *DB) Close() error {
+	return db.db.Close()
 }

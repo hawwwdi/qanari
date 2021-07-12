@@ -8,7 +8,7 @@ import (
 
 func (db *DB) Like(a model.Ava) error {
 	query := `call likeAva_procedure(?)`
-	res, err := db.SqlDB.Exec(query, a.ID)
+	res, err := db.db.Exec(query, a.ID)
 	rows, err := res.RowsAffected()
 	if rows == 0 {
 		return fmt.Errorf("Ava not found")
@@ -18,7 +18,7 @@ func (db *DB) Like(a model.Ava) error {
 
 func (db *DB) GetLikers(a model.Ava) ([]model.User, error) {
 	query := `call getLikers(?)`
-	rows, err := db.SqlDB.Query(query, a.ID)
+	rows, err := db.db.Query(query, a.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (db *DB) GetLikers(a model.Ava) ([]model.User, error) {
 
 func (db *DB) GetLikesCount(a model.Ava) (int, error) {
 	query := `call getLikesCount(?)`
-	rows, err := db.SqlDB.Query(query, a.ID)
+	rows, err := db.db.Query(query, a.ID)
 	if err != nil {
 		return -1, err
 	}
