@@ -1,12 +1,17 @@
 package main
 
 import (
+	"os"
+
 	"github.com/hawwwdi/qanari/db"
 	"github.com/hawwwdi/qanari/handlers"
 )
 
 func main() {
-	db := db.NewDB("root", "12345678", "qanari")
+	db_user := os.Getenv("db_user")
+	db_password := os.Getenv("db_password")
+	db_name := os.Getenv("db_name")
+	db := db.NewDB(db_user, db_password, db_name)
 	app := handlers.NewApp(db)
 	app.Start()
 }
