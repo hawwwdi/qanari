@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -62,15 +61,8 @@ func getTimeLineHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(avas)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"timeLine": string(bytes),
+			"timeLine": avas,
 		})
 		return
 	}
@@ -92,15 +84,8 @@ func getAvasCommentHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(comments)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"comments": string(bytes),
+			"comments": comments,
 		})
 		return
 	}
@@ -115,15 +100,8 @@ func getPersonalAvasHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(avas)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"avas": string(bytes),
+			"avas": avas,
 		})
 		return
 	}
@@ -145,15 +123,8 @@ func getUserAvasHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(avas)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"avas": string(bytes),
+			"avas": avas,
 		})
 		return
 	}
@@ -175,15 +146,8 @@ func getAvasByTagHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(avas)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"avas": string(bytes),
+			"avas": avas,
 		})
 		return
 	}
@@ -198,15 +162,8 @@ func getAvasByLikesHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(avas)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"avas": string(bytes),
+			"avas": avas,
 		})
 		return
 	}

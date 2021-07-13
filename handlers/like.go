@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -46,15 +45,8 @@ func getLikersHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(likers)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"likers": string(bytes),
+			"likers": likers,
 		})
 	}
 }

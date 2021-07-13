@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -47,15 +46,8 @@ func getMessagesFromAUserHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(messages)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"messages": string(bytes),
+			"messages": messages,
 		})
 	}
 }
@@ -69,15 +61,8 @@ func getMessageSendersHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		bytes, err := json.Marshal(users)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
-			"senders": string(bytes),
+			"senders": users,
 		})
 		return
 	}
