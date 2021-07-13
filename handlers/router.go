@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hawwwdi/qanari/db"
 )
@@ -26,9 +27,7 @@ func (a *App) Start(addr ...string) {
 func initRouter(r *gin.Engine, db *db.DB) {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	r.Use(func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", "*")
-	})
+	r.Use(cors.Default())
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
