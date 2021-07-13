@@ -26,6 +26,9 @@ func (a *App) Start(addr ...string) {
 func initRouter(r *gin.Engine, db *db.DB) {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
+	})
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
