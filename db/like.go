@@ -9,6 +9,9 @@ import (
 func (db *DB) Like(a model.Ava) error {
 	query := `call likeAva_procedure(?)`
 	res, err := db.db.Exec(query, a.ID)
+	if err != nil {
+		return err
+	}
 	rows, err := res.RowsAffected()
 	if rows == 0 {
 		return fmt.Errorf("Ava not found")

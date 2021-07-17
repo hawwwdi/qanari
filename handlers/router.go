@@ -44,7 +44,7 @@ func initRouter(r *gin.Engine, db *db.DB) {
 	msg := user.Group("/message")
 	{
 		msg.POST("/send", getSendMessageHandler(db))
-		msg.GET("/receive", getMessagesFromAUserHandler(db))
+		msg.POST("/receive", getMessagesFromAUserHandler(db))
 		msg.GET("/list", getMessageSendersHandler(db))
 	}
 	ava := r.Group("/ava")
@@ -52,10 +52,10 @@ func initRouter(r *gin.Engine, db *db.DB) {
 		ava.POST("/postAVA", getPostAvaHandler(db))
 		ava.POST("/postComment", getPostCommentHandler(db))
 		ava.GET("/timeline", getTimeLineHandler(db))
-		ava.GET("/comments", getAvasCommentHandler(db))
+		ava.POST("/comments", getAvasCommentHandler(db))
 		ava.GET("/me", getPersonalAvasHandler(db))
-		ava.GET("/user", getUserAvasHandler(db))
-		ava.GET("/tag", getAvasByTagHandler(db))
+		ava.POST("/user", getUserAvasHandler(db))
+		ava.POST("/tag", getAvasByTagHandler(db))
 		ava.GET("/popular", getAvasByLikesHandler(db))
 	}
 	like := ava.Group("/like")

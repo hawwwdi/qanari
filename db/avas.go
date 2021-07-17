@@ -114,7 +114,7 @@ func (db *DB) GetAvasByLikes() ([]model.Ava, error) {
 	timeLine := make([]model.Ava, 0)
 	for rows.Next() {
 		var curr model.Ava
-		if err := rows.Scan(&curr.ID, &curr.Content, &curr.Likes); err != nil {
+		if err := rows.Scan(&curr.ID, &curr.Publisher, &curr.Content, &curr.Likes); err != nil {
 			return nil, err
 		}
 		timeLine = append(timeLine, curr)

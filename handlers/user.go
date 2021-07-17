@@ -24,7 +24,8 @@ func getSingUpHandler(db *db.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		c.Redirect(http.StatusTemporaryRedirect, "/user/login")
+		//c.Redirect(http.StatusTemporaryRedirect, "/user/login")
+		c.JSON(http.StatusOK, gin.H{})
 		return
 	}
 }

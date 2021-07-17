@@ -111,6 +111,7 @@ func getUserAvasHandler(db *db.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var user model.User
 		if err := c.ShouldBindJSON(&user); err != nil {
+			//log.Fatalln(err)
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
 			})

@@ -7,7 +7,7 @@ import (
 
 type Ava struct {
 	ID          int           `json:"id" binding:"-"`
-	Publisher   int           `json:"publisher" binding:"-"`
+	Publisher   string        `json:"publisher" binding:"-"`
 	Content     string        `json:"content" binding:"-"`
 	ReplyTo     sql.NullInt32 `json:"replyTo" binding:"-"`
 	PublishTime string        `json:"publishTime" binding:"-"`
@@ -34,7 +34,7 @@ func (a *Ava) UnmarshalJSON(b []byte) error {
 		a.ID = int(res["id"].(float64))
 	}
 	if _, valid := res["publisher"]; valid {
-		a.Publisher = int(res["publisher"].(float64))
+		a.Publisher = res["publisher"].(string)
 	}
 	if _, valid := res["content"]; valid {
 		a.Content = res["content"].(string)
@@ -46,7 +46,7 @@ func (a *Ava) UnmarshalJSON(b []byte) error {
 		a.Likes = int(res["likes"].(float64))
 	}
 	if _, valid := res["replyTo"]; valid {
-		a.ReplyTo.Int32 = int32(res["postID"].(float64))
+		a.ReplyTo.Int32 = int32(res["replyTo"].(float64))
 		a.ReplyTo.Valid = true
 	}
 	return nil
