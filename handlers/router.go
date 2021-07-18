@@ -61,7 +61,7 @@ func initRouter(r *gin.Engine, db *db.DB) {
 	like := ava.Group("/like")
 	{
 		like.POST("/doLike", getLikeHandler(db))
-		like.GET("/list", getLikersHandler(db))
+		like.POST("/list", getLikersHandler(db))
 		like.GET("/count", getLikesCountHandler(db))
 	}
 }
